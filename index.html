@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #container{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    #loader{
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #load{
+        animation: animate 2s infinite;
+    }
+    @keyframes animate {
+        0%{
+            transform: rotate(0deg);
+        }
+        100%{
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<body>
+    <div id="container"></div>
+    <div id="loader">
+        <img id="load" src="./icons8-loader-100.png" alt="">
+    </div>
+    <script>
+           // 1st step 
+        let URL = "http://universities.hipolabs.com/search?country=United+States";
+        fetch(URL)
+
+             // 2nd Step 
+        .then(Response => Response.json())
+
+        .then(data => {
+            console.log(data);
+
+           for(i=0; i<10; i++){
+            document.getElementById("container").innerHTML += `<div id="card">
+        <h1>${data[i].name}</h1>
+        <h6>${data[i].country}</h6><hr>
+        <a href="${data[i].web_pages}">${data[i].web_pages}</a>
+    </div>`
+           }
+           setTimeout(()=>{
+            document.getElementById("loader").style.display = "none"
+           },150);
+            })
+            
+            // 3rd Step 
+
+        .catch(error => {
+            console.error('error',error);
+        });
+    </script>
+</body>
+</html>
